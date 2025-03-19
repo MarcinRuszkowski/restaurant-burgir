@@ -22,7 +22,7 @@ export const authUser = asyncHandler(async (req, res) => {
 });
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, phone } = req.body;
 
   const userExist = await User.findOne({ email });
 
@@ -34,6 +34,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    phone,
   });
 
   if (user) {
@@ -43,6 +44,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      phone: user.phone,
     });
   } else {
     res.status(400);
@@ -65,6 +67,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
     _id: req.user._id,
     name: req.user.name,
     email: req.user.email,
+    phone: req.user.phone,
   };
 
   res.status(200).json(user);
@@ -77,6 +80,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.phone = req.body.phone || user.phone;
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -87,6 +91,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      phone: updatedUser.phone,
     });
   } else {
     res.status(404);

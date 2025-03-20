@@ -15,7 +15,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   let totalOrderPrice = 0;
   const orderItems = [];
   const responseItemsArray = [];
-  
+
   if (deliveryFee) {
     totalOrderPrice += 8;
   }
@@ -34,8 +34,10 @@ export const createOrder = asyncHandler(async (req, res) => {
     totalOrderPrice += processedItems.totalPrice;
   }
 
+  const orderNumber = (await Order.countDocuments()) + 1;
 
   await Order.create({
+    number: orderNumber,
     userId,
     items: orderItems,
     totalPrice: totalOrderPrice.toFixed(2),
@@ -53,10 +55,11 @@ export const createOrder = asyncHandler(async (req, res) => {
   }));
 
   const responseData = {
+    number: orderNumber,
     user: userName,
     phone: userPhone,
     items: responseItems,
-    delivery: deliveryFee ? "+ 8 zł": "0 zł",
+    delivery: deliveryFee ? "+ 8 zł" : "0 zł",
     totalPrice: totalOrderPrice.toFixed(2),
     paymentMethod,
     deliveryAddress,

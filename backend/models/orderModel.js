@@ -15,6 +15,22 @@ const orderSchema = mongoose.Schema(
           required: true,
         },
         quantity: { type: Number, required: true, default: 1 },
+        bun: {
+          type: String,
+          enum: ["Classic", "Whole Grain", "Gluten Free"],
+          required: true,
+        },
+        doneness: {
+          type: String,
+          enum: ["Rare", "Medium Rare", "Well Done"],
+          required: true,
+        },
+        extras: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Extras",
+          },
+        ],
       },
     ],
     totalPrice: { type: Number, required: true, min: 0 },
@@ -24,6 +40,7 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     deliveryAddress: { type: String, required: true },
+    note: { type: String, required: false, default: "" },
   },
   { timestamps: true }
 );

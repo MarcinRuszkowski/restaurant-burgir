@@ -39,7 +39,11 @@ const orderSchema = mongoose.Schema(
       enum: ["Card", "Cash", "Blik"],
       required: true,
     },
-    deliveryAddress: { type: String, required: true },
+    deliveryAddress: {
+      type: String,
+      required: true,
+
+    },
     note: { type: String, required: false, default: "" },
   },
   { timestamps: true }

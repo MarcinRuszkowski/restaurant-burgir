@@ -1,7 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
-import Dish from "../models/dishModel.js";
-import Extra from "../models/ExtrasModel.js";
+
+import { processItems } from "../utils/processOrder.js";
+import { getDishById, getExtraById } from "../utils/orderDetailsName.js";
 
 export const createOrder = asyncHandler(async (req, res) => {
   const { items, deliveryAddress, paymentMethod, name, phone, note } = req.body;
@@ -69,36 +70,34 @@ export const createOrder = asyncHandler(async (req, res) => {
   return res.status(200).json(responseData);
 });
 
-const getExtrasDetails = async (extras) => {
-  if (!extras || extras.length === 0)
-    return { extrasDetails: [], extrasCost: 0 };
+export const getUserOrderHistory = asyncHandler(async (req, res) => {
+  const userOrders = await Order.find({ userId: req.user._id });
 
-  const extraIngredients = await Extra.find({ _id: { $in: extras } });
+  const formattedOrder = await Promise.all(
+    userOrders.map(async (order) => {
+      const formattedItems = await Promise.all(
+        order.items.map(async (item) => {
+          const dishName = await getDishById(item.dish);
+          const extras = await Promise.all(
+            item.extras.map(async (extra) => await getExtraById(extra))
+          );
 
-  let extrasCost = 0;
-  const extrasDetails = extraIngredients.map((extra) => {
-    extrasCost += extra.price;
-    return { name: extra.name, price: extra.price, id: extra._id };
-  });
+          return {
+            name: dishName.name,
+            quantity: item.quantity,
+            extras: extras,
+          };
+        })
+      );
 
-  return { extrasDetails, extrasCost };
-};
+      return {
+        items: formattedItems,
+        totalPrice: order.totalPrice,
+        deliveryAddress: order.deliveryAddress,
+        createdAt: new Date(order.createdAt).toLocaleDateString("pl-PL"),
+      };
+    })
+  );
 
-const processItems = async (item) => {
-  const { dish, quantity, bun, doneness, extras } = item;
-
-  const orderedDish = await Dish.findById(dish);
-
-  const { extrasDetails, extrasCost } = await getExtrasDetails(extras);
-  const totalPrice = (orderedDish.price + extrasCost) * quantity;
-
-  return {
-    dish: orderedDish._id,
-    name: orderedDish.name,
-    quantity,
-    bun,
-    doneness,
-    extras: extrasDetails,
-    totalPrice,
-  };
-};
+  res.status(200).json(formattedOrder);
+});

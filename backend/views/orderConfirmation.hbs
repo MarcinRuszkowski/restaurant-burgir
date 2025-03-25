@@ -1,0 +1,22 @@
+<h1>Dziękujemy za zamówienie, {{user}}!</h1>
+<p>Twoje zamówienie nr <strong>#{{number}}</strong> zostało przyjęte.</p>
+
+<ul>
+  {{#each items}}
+    <li>{{quantity}}x {{name}} ({{bun}}, {{doneness}})</li>
+    <ul>
+      {{#each extras}}
+        <li>+ {{this}}</li>
+      {{/each}}
+    </ul>
+  {{/each}}
+</ul>
+
+<p>Dostawa: <strong>{{delivery}}</strong></p>
+<p>Łączna kwota: <strong>{{totalPrice}} zł</strong></p>
+<p>Sposób płatności: <strong>{{paymentMethod}}</strong></p>
+
+<p>Adres dostawy: <strong>{{deliveryAddress}}</strong></p>
+<p>Uwagi: {{note}}</p>
+
+<p>Dziękujemy za zamówienie! Smacznego!</p>

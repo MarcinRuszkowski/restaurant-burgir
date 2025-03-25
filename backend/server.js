@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 import dishRoutes from "./routes/dishRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/dish", dishRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/email", emailRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server ready");

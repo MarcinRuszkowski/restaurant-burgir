@@ -1,15 +1,17 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
-
 import { processItems } from "../utils/processOrder.js";
 import { getDishById, getExtraById } from "../utils/orderDetailsName.js";
+import { sendOrderConfirmation } from "./emailController.js";
 
 export const createOrder = asyncHandler(async (req, res) => {
-  const { items, deliveryAddress, paymentMethod, name, phone, note } = req.body;
+  const { items, deliveryAddress, paymentMethod, name, phone, note, email } =
+    req.body;
 
   const userName = req.user ? req.user.name : name;
   const userPhone = req.user ? req.user.phone : phone;
   const userId = req.user ? req.user._id : null;
+  const userEmail = req.user ? req.user.email : email;
 
   const deliveryFee = deliveryAddress === "Odbiór osobisty" ? false : true;
 
@@ -48,7 +50,8 @@ export const createOrder = asyncHandler(async (req, res) => {
   });
 
   const responseItems = responseItemsArray.map((item) => ({
-    [item.name]: item.quantity,
+    name: item.name,
+    quantity: item.quantity,
     bun: item.bun,
     doneness: item.doneness,
     extras: item.extras.map((extra) => extra.name),
@@ -57,6 +60,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 
   const responseData = {
     number: orderNumber,
+    email: userEmail,
     user: userName,
     phone: userPhone,
     items: responseItems,
@@ -66,6 +70,9 @@ export const createOrder = asyncHandler(async (req, res) => {
     deliveryAddress,
     note,
   };
+
+  // order confirmation
+  await sendOrderConfirmation(responseData);
 
   return res.status(200).json(responseData);
 });

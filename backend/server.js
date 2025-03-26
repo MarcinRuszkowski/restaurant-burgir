@@ -14,7 +14,6 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -27,12 +26,17 @@ app.use("/api/order", orderRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/auth", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Server ready");
+app.get("/api/server", (req, res) => {
+  res.send({ message: "Server ready" });
 });
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log("Server is running");
-});
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 4000;
+  
+  app.listen(PORT, () => {
+    console.log("Server is running");
+  });
+}
+export default app;

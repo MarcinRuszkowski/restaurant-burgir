@@ -4,18 +4,16 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../server.js";
 import Dish from "../models/dishModel.js";
 
-const mongoServer = await MongoMemoryServer.create();
+let mongoServer;
 
 beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   await mongoose.connect(mongoUri);
 });
 
-beforeEach(async () => {
-  await Dish.deleteMany();
-});
-
 afterAll(async () => {
+  await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   await mongoServer.stop();
 });

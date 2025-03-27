@@ -92,10 +92,15 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.phone = req.body.phone || user.phone;
+    user.password = req.body.password || user.password;
 
-    if (req.body.password) {
-      user.password = req.body.password;
+    const validatedEmail = validateEmail(user.email);
+
+    if (!validatedEmail) {
+      res.status(404);
+      throw new Error("Invalid email");
     }
+
     const updatedUser = await user.save();
 
     res.status(200).json({

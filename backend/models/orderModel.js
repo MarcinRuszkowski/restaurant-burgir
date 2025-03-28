@@ -4,13 +4,26 @@ const orderSchema = mongoose.Schema(
   {
     number: {
       type: Number,
-      required: true
+      required: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: false,
     },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+
     items: [
       {
         dish: {
@@ -18,7 +31,7 @@ const orderSchema = mongoose.Schema(
           ref: "dish",
           required: true,
         },
-        quantity: { type: Number, required: true, default: 1 },
+        quantity: { type: Number, required: true, default: 1, min: 1 },
         bun: {
           type: String,
           enum: ["Classic", "Whole Grain", "Gluten Free"],
@@ -46,7 +59,6 @@ const orderSchema = mongoose.Schema(
     deliveryAddress: {
       type: String,
       required: true,
-
     },
     note: { type: String, required: false, default: "" },
   },

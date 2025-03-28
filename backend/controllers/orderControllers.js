@@ -13,7 +13,14 @@ export const createOrder = asyncHandler(async (req, res) => {
   const userId = req.user ? req.user._id : null;
   const userEmail = req.user ? req.user.email : email;
 
-  const deliveryFee = deliveryAddress === "Odbiór osobisty" ? false : true;
+  if (!userName || !userPhone || !userEmail) {
+    res.status(400).json({ message: "Invalid user data" });
+  }
+
+  const deliveryFee =
+    deliveryAddress === "Odbiór osobisty" || deliveryAddress.trim() === ""
+      ? false
+      : true;
 
   let totalOrderPrice = 0;
   const orderItems = [];
@@ -37,11 +44,18 @@ export const createOrder = asyncHandler(async (req, res) => {
     totalOrderPrice += processedItems.totalPrice;
   }
 
+  if (orderItems.length <= 0) {
+    res.status(400).json({ message: "You must order at least 1 product" });
+  }
+
   const orderNumber = (await Order.countDocuments()) + 1;
 
   await Order.create({
     number: orderNumber,
     userId,
+    name: userName,
+    email: userEmail,
+    phone: userPhone,
     items: orderItems,
     totalPrice: totalOrderPrice.toFixed(2),
     paymentMethod,

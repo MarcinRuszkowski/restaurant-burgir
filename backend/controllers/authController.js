@@ -15,7 +15,7 @@ export const requestPasswordReset = asyncHandler(async (req, res) => {
     throw new Error("User doesn't exist");
   }
 
-  const secret = process.env.JWT + user.password;
+  const secret = process.env.JWT_SECRET + user.password;
   const token = jwt.sign({ id: user._id, email: user.email }, secret, {
     expiresIn: "1h",
   });
@@ -38,7 +38,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new Error("User doesn't exist");
   }
 
-  const secret = process.env.JWT + user.password;
+  const secret = process.env.JWT_SECRET + user.password;
   try {
     jwt.verify(token, secret);
   } catch (error) {
@@ -46,7 +46,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     throw new Error("Invalid or expired token");
   }
 
-  user.password = password
+  user.password = password;
   await user.save();
   res.status(200).json({ message: "Password has been reset" });
 });

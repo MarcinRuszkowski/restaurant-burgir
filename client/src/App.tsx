@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar } from "./layout/Navbar";
 import { MenuPage } from "./pages/MenuPage";
 import { MainPage } from "./pages/MainPage";
+import { LocationPage } from "./pages/LocationPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/menu" element={<MenuPage />} />
+              <Route path="/location" element={<LocationPage />} />
             </Routes>
           </div>
         </div>

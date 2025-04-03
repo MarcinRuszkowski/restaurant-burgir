@@ -47,7 +47,6 @@ describe("POST /api/user/auth", () => {
     expect(res.body.email).toBe("test.test.1@gmail.com");
 
     authToken = res.headers["set-cookie"];
-    console.log(authToken);
   });
 
   it("should return error", async () => {

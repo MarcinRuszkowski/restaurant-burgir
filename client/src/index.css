@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+body {
+  @apply bg-yellow-500;
+  font-family: "Roboto Mono", monospace;
+}

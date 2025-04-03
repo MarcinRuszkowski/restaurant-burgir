@@ -16,6 +16,11 @@ const dishSchema = mongoose.Schema({
   image: {
     type: String,
   },
+  isLimited: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
 });
 
 const Dish = mongoose.model("Dish", dishSchema);

@@ -11,6 +11,6 @@ const extraSchema = mongoose.Schema({
   },
 });
 
-const Extra = mongoose.model("Extra", extraSchema);
+const Extra = mongoose.models.Extra || mongoose.model("Extra", extraSchema);
 
 export default Extra;

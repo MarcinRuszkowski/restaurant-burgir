@@ -1,5 +1,5 @@
 import Dish from "../models/dishModel.js";
-import Extra from "../models/ExtrasModel.js";
+import Extra from "../models/extrasModel.js";
 
 export const getDishById = async (dishId) => {
   const dish = await Dish.findById(dishId);

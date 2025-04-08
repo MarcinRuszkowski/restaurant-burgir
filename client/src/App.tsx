@@ -3,6 +3,7 @@ import { Navbar } from "./layout/Navbar";
 import { MenuPage } from "./pages/MenuPage";
 import { MainPage } from "./pages/MainPage";
 import { LocationPage } from "./pages/LocationPage";
+import { CartPages } from "./pages/CartPages";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
               <Route path="/" element={<MainPage />} />
               <Route path="/menu" element={<MenuPage />} />
               <Route path="/location" element={<LocationPage />} />
+              <Route path="/cart" element={<CartPages />} />
             </Routes>
           </div>
         </div>

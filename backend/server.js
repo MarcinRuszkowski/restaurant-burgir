@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import extrasRoutes from "./routes/extrasRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/user", userRoutes);
 app.use("/api/dish", dishRoutes);
+app.use("/api/extras", extrasRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/auth", authRoutes);

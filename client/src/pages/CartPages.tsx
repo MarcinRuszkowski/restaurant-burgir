@@ -1,28 +1,44 @@
+import { useCartStore } from "../store/cartStore";
 import { CartItemCard } from "../components/CartItemCard";
-import { useDishes } from "../hooks/useDishes";
+import { DeleteButton } from "../components/DeleteButton";
+import { FaShoppingCart } from "react-icons/fa";
+import { YellowButton } from "../components/YellowButton";
 
 export const CartPages = () => {
-  const { data, isLoading, error } = useDishes();
-
-  if (isLoading) return <p>Loading dishes...</p>;
-
-  if (error instanceof Error) {
-    return <p>Error: {error.message}</p>;
-  }
+  const cartStorage = useCartStore((state) => state.items);
+  const getTotalPrice = useCartStore((state) => state.getTotalPrice);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   return (
-    <div className="">
-      <h1 className="text-3xl ml-2 mb-3 font-medium ">Twoje zamówienie</h1>
-      <div className="space-y-3">
-        {data.map((dish) => (
-          <CartItemCard
-            key={dish.id}
-            name={dish.name}
-            desc={"chuj"}
-            price={dish.price}
-          />
-        ))}
+    <div className="p-4 space-y-4 relative">
+      <div className="absolute right-4 top-4">
+        <DeleteButton onClick={() => clearCart()} />
       </div>
+      <h1 className="text-3xl mb-6  font-medium">Twoje zamówienie</h1>
+
+      {cartStorage.length === 0 ? (
+        <div className="flex  items-center gap-2 text-lg text-gray-500">
+          <p>Koszyk jest pusty</p> <FaShoppingCart />
+        </div>
+      ) : (
+        <>
+          <div className="space-y-3">
+            {cartStorage.map((item, index) => (
+              <CartItemCard key={index} item={item} />
+            ))}
+          </div>
+
+          <div className="flex flex-col items-end gap-5">
+            <h2 className="text-2xl  font-semibold">
+              Suma:{" "}
+              <span className="text-green-600">
+                {getTotalPrice().toFixed(2)} zł
+              </span>
+            </h2>
+            <YellowButton text="Zamów" onClick={() => {}} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

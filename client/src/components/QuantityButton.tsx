@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { FiMinusCircle } from "react-icons/fi";
 
 interface QuantityButtonProps {
-  initQuantity?: number;
+  quantity: number;
+  setQuantity: (quantity: number) => void;
 }
 
 export const QuantityButton: React.FC<QuantityButtonProps> = ({
-  initQuantity = 1,
+  quantity,
+  setQuantity,
 }) => {
-  const [quantity, setQuantity] = useState(initQuantity);
-
   return (
-    <div
-      className="flex flex-row gap-2 items-center
-"
-    >
+    <div className="flex flex-row gap-2 items-center">
       <button
         title="Dodaj jedną sztukę"
-        className="hover:text-green-500 text-[42px]"
-        onClick={() => setQuantity((prev) => prev + 1)}
+        className="hover:text-green-500 active:text-green-600 text-[42px]"
+        onClick={() => setQuantity(quantity + 1)}
       >
         <IoAddCircleOutline />
       </button>
       <span>{quantity}</span>
       <button
         title="odejmij jedną sztukę"
-        className=" hover:text-red-500 text-4xl "
+        className=" hover:text-red-500 text-4xl active:text-red-600"
         disabled={quantity <= 1}
-        onClick={() => setQuantity((prev) => prev - 1)}
+        onClick={() => setQuantity(quantity - 1)}
       >
         <FiMinusCircle />
       </button>

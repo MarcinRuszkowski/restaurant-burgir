@@ -4,12 +4,13 @@ import { MenuPage } from "./pages/MenuPage";
 import { MainPage } from "./pages/MainPage";
 import { LocationPage } from "./pages/LocationPage";
 import { CartPages } from "./pages/CartPages";
+import { UserPage } from "./pages/UserPage";
 
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-yellow-500 flex items-center justify-center p-5">
-        <div className="bg-white w-full max-w-[90wh] min-h-[90vh] h-full rounded-4xl  overflow-y px-5">
+      <div className="min-h-screen flex items-center justify-center p-5">
+        <div className="bg-white w-full max-w-[90wh] min-h-[100vh] h-full rounded-4xl  overflow-y px-5">
           <div className="sticky top-0 z-10">
             <Navbar />
           </div>
@@ -19,6 +20,7 @@ const App = () => {
               <Route path="/menu" element={<MenuPage />} />
               <Route path="/location" element={<LocationPage />} />
               <Route path="/cart" element={<CartPages />} />
+              <Route path="/user" element={<UserPage />} />
             </Routes>
           </div>
         </div>

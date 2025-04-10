@@ -4,11 +4,14 @@ import { useOutsideClick } from "../hooks/useClickOutside";
 import { DetailsCard } from "../components/DetailsCard";
 import { ProductCard } from "../components/ProductCard";
 import { useDishes } from "../hooks/useDishes";
+import { Dish } from "../types/types";
 
 export const MenuPage = () => {
   const { data, isLoading, error } = useDishes();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDish, setSelectedDish] = useState<string | null>(null);
+  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
+
   const ref = useOutsideClick(() => setIsOpen(false));
 
   if (isLoading) return <p>Loading dishes...</p>;
@@ -28,13 +31,13 @@ export const MenuPage = () => {
             />
             <motion.div
               ref={ref}
-              className="relative z-20 bg-white p-2 rounded-4xl  "
+              className="relative z-20 bg-white p-2 rounded-4xl"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.3 }}
             >
-              <DetailsCard dishName={selectedDish || "BURGIR"} />
+              <DetailsCard dish={selectedDish} setIsOpen={setIsOpen} />
             </motion.div>
           </div>
         )}
@@ -45,7 +48,7 @@ export const MenuPage = () => {
           OFERTA LIMITOWANA
         </h1>
         {data
-          .filter((dish) => dish.isLimited)
+          ?.filter((dish) => dish.isLimited)
           .map((dish) => (
             <ProductCard
               key={dish.id}
@@ -53,7 +56,7 @@ export const MenuPage = () => {
               desc={dish.description}
               price={dish.price}
               onOpen={() => {
-                setSelectedDish(dish.name);
+                setSelectedDish(dish);
                 setIsOpen(true);
               }}
             />
@@ -62,18 +65,20 @@ export const MenuPage = () => {
 
       <div className="space-y-3">
         <h1 className="text-3xl ml-2 mb-3 font-medium">MENU</h1>
-        {data.map((dish) => (
-          <ProductCard
-            key={dish.id}
-            name={dish.name}
-            desc={dish.description}
-            price={dish.price}
-            onOpen={() => {
-              setSelectedDish(dish.name);
-              setIsOpen(true);
-            }}
-          />
-        ))}
+        {data
+          ?.filter((dish) => !dish.isLimited)
+          .map((dish) => (
+            <ProductCard
+              key={dish.id}
+              name={dish.name}
+              desc={dish.description}
+              price={dish.price}
+              onOpen={() => {
+                setSelectedDish(dish);
+                setIsOpen(true);
+              }}
+            />
+          ))}
       </div>
     </div>
   );

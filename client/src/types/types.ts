@@ -23,9 +23,16 @@ export type CartItem = {
   extras: Extras[];
 };
 
-export type Input = {
+export type FormInput = {
   title: string;
   name: string;
   placeholder: string;
   type?: string;
+};
+
+export type User = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
 };

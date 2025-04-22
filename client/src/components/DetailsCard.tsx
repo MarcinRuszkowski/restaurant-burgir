@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useExtras } from "../hooks/useExtras";
 import { useCartStore } from "../store/cartStore";
 import { Bun, Dish, Doneness, Extras } from "../types/types";
@@ -63,7 +64,7 @@ export const DetailsCard: React.FC<DetailsCardProps> = ({
     setTimeout(() => {
       setAdded(false);
       setIsOpen(false);
-    }, 2000);
+    }, 1200);
   };
 
   return (
@@ -122,9 +123,14 @@ export const DetailsCard: React.FC<DetailsCardProps> = ({
       </section>
       <div className="flex flex-col items-center self-center gap-3 mt-4">
         <QuantityButton quantity={quantity} setQuantity={setQuantity} />
-        <button
+        <motion.button
           onClick={handleAddToCart}
-          className={`flex items-center gap-2 px-5 py-2 rounded-4xl transition-all duration-500 ${
+          whileTap={{ scale: 0.95 }}
+          animate={
+            added ? { scale: [1, 1.1, 1], backgroundColor: "#16a34a" } : {}
+          }
+          transition={{ duration: 0.4 }}
+          className={`flex items-center gap-2 px-5 py-2 rounded-4xl text-white ${
             added
               ? "bg-green-600"
               : "bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700"
@@ -138,7 +144,7 @@ export const DetailsCard: React.FC<DetailsCardProps> = ({
           ) : (
             "DODAJ DO KOSZYKA"
           )}
-        </button>
+        </motion.button>
       </div>
     </div>
   );

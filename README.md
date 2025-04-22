@@ -14,13 +14,17 @@ Restaurant website - "burgir". You can order burgers after entering essentials d
 - **Auth**: User can register, change data, reset password.
 - **Order History**: List of previous orders. This is avaible for register users only.
 - **Mailer**: Emails confirming order acceptance, registered account, reset password.
-- **Saving Orders**: Every order is savrd in the db
+- **Saving Orders**: Every order is saved in the db
 
 ## Technologies
 
 - **Node**
 - **ExpressJS**
 - **MongoDB**
+- **React**
+- **TypeScript**
+- **TanStack Query**
+- **Zustand**
 
 ## Installation and Usages
 

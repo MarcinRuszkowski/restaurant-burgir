@@ -1,0 +1,29 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "Restaurant website",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd backend && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarcinRuszkowski/restaurant-burgir.git"
+  },
+  "keywords": [],
+  "author": "Marcin Ruszkowski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarcinRuszkowski/restaurant-burgir/issues"
+  },
+  "homepage": "https://github.com/MarcinRuszkowski/restaurant-burgir#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "workspaces": [
+    "backend",
+    "client"
+  ]
+}

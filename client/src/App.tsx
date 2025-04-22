@@ -5,6 +5,7 @@ import { MainPage } from "./pages/MainPage";
 import { LocationPage } from "./pages/LocationPage";
 import { CartPages } from "./pages/CartPages";
 import { UserPage } from "./pages/UserPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
               <Route path="/location" element={<LocationPage />} />
               <Route path="/cart" element={<CartPages />} />
               <Route path="/user" element={<UserPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Routes>
           </div>
         </div>

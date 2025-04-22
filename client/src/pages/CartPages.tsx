@@ -2,12 +2,14 @@ import { useCartStore } from "../store/cartStore";
 import { CartItemCard } from "../components/CartItemCard";
 import { DeleteButton } from "../components/DeleteButton";
 import { FaShoppingCart } from "react-icons/fa";
-import { YellowButton } from "../components/YellowButton";
+import { useNavigate } from "react-router";
 
 export const CartPages = () => {
   const cartStorage = useCartStore((state) => state.items);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
   const clearCart = useCartStore((state) => state.clearCart);
+
+  const navigate = useNavigate();
 
   return (
     <div className="p-4 space-y-4 relative">
@@ -35,7 +37,12 @@ export const CartPages = () => {
                 {getTotalPrice().toFixed(2)} zł
               </span>
             </h2>
-            <YellowButton text="Zamów" onClick={() => {}} />
+            <button
+              onClick={() => navigate("/user")}
+              className={`text-2xl bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700  text-white px-3 py-1 rounded-4xl `}
+            >
+              Zamów
+            </button>
           </div>
         </>
       )}

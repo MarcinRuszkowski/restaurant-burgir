@@ -25,7 +25,7 @@ export const registerUser = async (data: {
 };
 
 export const getUserProfile = async () => {
-  const res = await axios.get(`${API_URL}/api/user/profile`, {});
+  const res = await axios.get(`${API_URL}/api/user/profile`);
   return res.data;
 };
 

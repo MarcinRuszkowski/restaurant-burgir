@@ -36,3 +36,5 @@ export type User = {
   email: string;
   phone: string;
 };
+
+export type FormField = "name" | "email" | "phone" | "password";

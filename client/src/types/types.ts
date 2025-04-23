@@ -38,3 +38,66 @@ export type User = {
 };
 
 export type FormField = "name" | "email" | "phone" | "password";
+
+export type ExtraItem = {
+  id: string;
+};
+
+export type OrderItem = {
+  name: string;
+  quantity: number;
+  bun: "Classic" | "Whole Grain" | "Gluten Free";
+  doneness: "Rare" | "Medium Rare" | "Well Done";
+  extras: ExtraItem[];
+};
+
+export interface OrderData {
+  number?: number;
+  createdAt: string;
+  deliveryAddress: string;
+  totalPrice: number;
+  items: {
+    name: string;
+    quantity: number;
+    extras: string[];
+  }[];
+}
+
+// export interface OrderResponseItem {
+//   name: string;
+//   quantity: number;
+//   bun?: string;
+//   doneness?: string;
+//   extras: string[];
+//   totalPrice: string;
+// }
+
+// export interface OrderResponse {
+//   number: number;
+//   email: string;
+//   user: string;
+//   phone: string;
+//   items: OrderResponseItem[];
+//   delivery: string;
+//   totalPrice: string;
+//   paymentMethod: string;
+//   deliveryAddress: string;
+//   note?: string;
+// }
+
+// export interface UserOrderHistoryItem {
+//   name: string;
+//   quantity: number;
+//   extras: {
+//     _id: string;
+//     name: string;
+//     price: number;
+//   }[];
+// }
+
+// export interface UserOrderHistory {
+//   items: UserOrderHistoryItem[];
+//   totalPrice: string;
+//   deliveryAddress: string;
+//   createdAt: string; // już sformatowana data np. "23.04.2025"
+// }

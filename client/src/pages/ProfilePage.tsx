@@ -3,9 +3,21 @@ import { AuthFormBox } from "../components/AuthFormBox";
 import { useLogout, useUpdateProfile, useUserProfile } from "../hooks/useUser";
 import { useUserState } from "../store/userStore";
 import { FormField } from "../types/types";
+import { useOrderHistory } from "../hooks/useOrder";
+import { OrderHistoryList } from "../components/OrderHistoryList";
 
 export const ProfilePage = () => {
-  const { data, isLoading, isError } = useUserProfile();
+  const {
+    data: userData,
+    isLoading: userLoading,
+    isError: userError,
+  } = useUserProfile();
+  const {
+    data: orderData,
+    isLoading: orderLoading,
+    isError: orderError,
+  } = useOrderHistory();
+
   const logout = useLogout();
   const updateProfile = useUpdateProfile();
   const logoutStore = useUserState((state) => state.logoutUser);
@@ -20,15 +32,15 @@ export const ProfilePage = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (userData) {
       setForm({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        password: data.password,
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone,
+        password: userData.password,
       });
     }
-  }, [data]);
+  }, [userData]);
 
   const handleLogoutUser = () => {
     logout.mutate(undefined, {
@@ -65,14 +77,14 @@ export const ProfilePage = () => {
     );
   }
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading profile</div>;
+  if (userLoading || orderLoading) return <div>Loading...</div>;
+  if (userError || orderError) return <div>Error loading profile</div>;
 
-  const userData: { label: string; value: FormField; data: string }[] = [
-    { label: "Imię i nazwisko:", value: "name", data: data.name },
-    { label: "Adres email:", value: "email", data: data.email },
-    { label: "Numer Telefonu:", value: "phone", data: data.phone },
-    { label: "Hasło:", value: "password", data: data.password },
+  const userInfo: { label: string; value: FormField; data: string }[] = [
+    { label: "Imię i nazwisko:", value: "name", data: userData.name },
+    { label: "Adres email:", value: "email", data: userData.email },
+    { label: "Numer Telefonu:", value: "phone", data: userData.phone },
+    { label: "Hasło:", value: "password", data: userData.password },
   ];
 
   return (
@@ -111,10 +123,8 @@ export const ProfilePage = () => {
       </div>
 
       <div className="flex flex-col gap-5 ml-5">
-        <h1 className="text-3xl ml-2 mb-3 font-medium text-black">
-          Twoje dane:
-        </h1>
-        {userData
+        <h1 className="text-2xl ml-2 font-medium text-black">Twoje dane:</h1>
+        {userInfo
           .filter((item) => isEditing || item.value !== "password")
           .map((item) => (
             <div key={item.value}>
@@ -143,6 +153,13 @@ export const ProfilePage = () => {
               )}
             </div>
           ))}
+      </div>
+      <hr className="my-8 border-[1px]" />
+      <div className="">
+        <h1 className="text-2xl ml-2 font-medium text-black">
+          Twoja historia zamówień:
+        </h1>
+        <OrderHistoryList orderData={orderData} />
       </div>
     </div>
   );

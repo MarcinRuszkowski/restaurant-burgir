@@ -31,7 +31,7 @@ export const Form: React.FC<FormProps> = ({
   };
 
   return (
-    <form className="space-y-4 w-full" onClick={handleSubmit}>
+    <form className="space-y-4 w-full" onSubmit={handleSubmit}>
       {inputs.map((input) => (
         <div className="flex flex-col gap-2" key={input.name}>
           <label htmlFor={input.name} className="ml-3">

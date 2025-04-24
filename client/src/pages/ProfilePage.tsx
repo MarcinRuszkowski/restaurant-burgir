@@ -5,6 +5,8 @@ import { useUserState } from "../store/userStore";
 import { FormField } from "../types/types";
 import { useOrderHistory } from "../hooks/useOrder";
 import { OrderHistoryList } from "../components/OrderHistoryList";
+import { Alert } from "../components/Alert";
+import { useAlertStore } from "../store/alertStore";
 
 export const ProfilePage = () => {
   const {
@@ -22,8 +24,9 @@ export const ProfilePage = () => {
   const updateProfile = useUpdateProfile();
   const logoutStore = useUserState((state) => state.logoutUser);
   const userStore = useUserState((state) => state.isAuth);
+  const showAlert = useAlertStore((state) => state.showAlert);
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [form, setForm] = useState<Record<FormField, string>>({
     name: "",
     email: "",
@@ -46,9 +49,10 @@ export const ProfilePage = () => {
     logout.mutate(undefined, {
       onSuccess: () => {
         logoutStore();
-        console.log("LoggedOut");
+        showAlert("pass", "Wylogowano pomyślnie");
       },
       onError: (err) => {
+        showAlert("fail", "Wylogowanie nie powiodło się");
         console.error(err);
       },
     });
@@ -56,9 +60,11 @@ export const ProfilePage = () => {
   const handleEditUser = () => {
     updateProfile.mutate(form, {
       onSuccess: () => {
+        showAlert("pass", "Dane zostały zaktualizowane");
         setIsEditing(false);
       },
       onError: (err) => {
+        showAlert("fail", "Edycja danych nie powiodła się");
         console.error(err);
       },
     });

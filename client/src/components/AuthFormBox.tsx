@@ -4,6 +4,7 @@ import { Form } from "./Form";
 import { useLogin, useRegister } from "../hooks/useUser";
 import { loginInputs, registerInputs } from "../data/inputData";
 import { useUserState } from "../store/userStore";
+import { useAlertStore } from "../store/alertStore";
 
 interface AuthFormBoxProps {
   buttonClassName?: string;
@@ -17,6 +18,7 @@ export const AuthFormBox: React.FC<AuthFormBoxProps> = ({
   const register = useRegister();
 
   const setUser = useUserState((state) => state.setUser);
+  const showAlert = useAlertStore((state) => state.showAlert);
 
   const handleLogin = (form: { [key: string]: string }) => {
     const loginData = {
@@ -26,10 +28,13 @@ export const AuthFormBox: React.FC<AuthFormBoxProps> = ({
     login.mutate(loginData, {
       onSuccess: (res) => {
         setUser(res);
-
+        showAlert("pass", "Zalogowano pomyślnie");
         console.log("Zalogowano!", res);
       },
-      onError: (err) => console.error("Błąd logowania", err.message),
+      onError: (err) => {
+        showAlert("fail", "Logowanie nie powiodło się");
+        console.error(err);
+      },
     });
   };
 
@@ -43,10 +48,14 @@ export const AuthFormBox: React.FC<AuthFormBoxProps> = ({
     register.mutate(registerData, {
       onSuccess: (res) => {
         setUser(res);
+        showAlert("pass", "Rejestracja powiodła się");
 
-        console.log("Zarejestrowano!", res);
+        console.log(res);
       },
-      onError: (err) => console.error("Błąd podczas rejestracji", err.message),
+      onError: (err) => {
+        showAlert("fail", "Błąd podczas rejestracji");
+        console.error(err);
+      },
     });
   };
 

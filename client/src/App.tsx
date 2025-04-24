@@ -6,6 +6,7 @@ import { LocationPage } from "./pages/LocationPage";
 import { CartPages } from "./pages/CartPages";
 import { UserPage } from "./pages/UserPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { AlertDisplay } from "./layout/AlertDisplay";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <div className="bg-white w-full max-w-[90wh] min-h-[100vh] h-full rounded-4xl  overflow-y px-5">
           <div className="sticky top-0 z-10">
             <Navbar />
+            <AlertDisplay />
           </div>
           <div className="border-2 rounded-4xl p-5  mb-5 h-full ">
             <Routes>
